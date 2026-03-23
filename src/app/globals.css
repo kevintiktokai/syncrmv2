@@ -1,0 +1,360 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --bg: #f1f5ff;
+  --content-bg: #f5f7ff;
+  --card-bg: #ffffff;
+  --surface-2: #eef2ff;
+  --text: #1f2a44;
+  --text-muted: #5b647f;
+  --text-dim: #7a869c;
+  --border: rgba(63, 82, 138, 0.14);
+  --border-strong: rgba(63, 82, 138, 0.22);
+  --primary: #eca400;
+  --primary-600: #d89500;
+  --primary-glow: rgba(236, 164, 0, 0.22);
+  --row-hover: rgba(42, 89, 37, 0.08);
+  --success: #16a34a;
+  --warning: #ca8a04;
+  --danger: #dc2626;
+  --info: #0284c7;
+  --sidebar-width: 272px;
+  --sidebar-width-collapsed: 72px;
+  --topbar-height: 56px;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-content-bg: var(--content-bg);
+  --color-card-bg: var(--card-bg);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-dim: var(--text-dim);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-primary: var(--primary);
+  --color-primary-600: var(--primary-600);
+  --color-row-hover: var(--row-hover);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--content-bg);
+  color: var(--text);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.25rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.24);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fade-slide-enter {
+  opacity: 0;
+  transform: translateX(8px);
+}
+
+.fade-slide-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes price-shine {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.price-shine {
+  background: linear-gradient(
+    90deg,
+    var(--text) 0%,
+    var(--text) 35%,
+    var(--primary) 50%,
+    var(--text) 65%,
+    var(--text) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: price-shine 3s ease-in-out 0.6s 1;
+}
+
+/* Task overdue urgency animations */
+@keyframes overdue-pulse {
+  0%, 100% { border-left-color: rgba(220, 38, 38, 0.25); }
+  50% { border-left-color: rgba(220, 38, 38, 0.8); }
+}
+
+@keyframes overdue-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes check-draw-in {
+  from { stroke-dashoffset: 24; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes celebration-glow {
+  0% { box-shadow: none; background-color: transparent; }
+  35% { box-shadow: inset 0 0 24px rgba(22, 163, 74, 0.12), 0 0 12px rgba(22, 163, 74, 0.08); background-color: rgba(22, 163, 74, 0.04); }
+  100% { box-shadow: none; background-color: transparent; }
+}
+
+.overdue-pulse {
+  border-left: 3px solid rgba(220, 38, 38, 0.5) !important;
+  animation: overdue-pulse 2s ease-in-out infinite;
+}
+
+.overdue-breathe {
+  animation: overdue-breathe 3s ease-in-out infinite;
+}
+
+.check-draw-in {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: check-draw-in 0.4s ease-out 0.1s forwards;
+}
+
+.celebration-glow {
+  animation: celebration-glow 1.4s ease-out forwards;
+}
+
+.shimmer-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+/* Admin page: row activation flash */
+@keyframes row-flash {
+  0% { background-color: transparent; }
+  25% { background-color: rgba(22, 163, 74, 0.12); }
+  100% { background-color: transparent; }
+}
+
+@keyframes row-flash-deactivate {
+  0% { background-color: transparent; }
+  25% { background-color: rgba(220, 38, 38, 0.1); }
+  100% { background-color: transparent; }
+}
+
+.row-flash-activate {
+  animation: row-flash 1s ease-out forwards;
+}
+
+.row-flash-deactivate {
+  animation: row-flash-deactivate 1s ease-out forwards;
+}
+
+/* Admin page: hide native range thumb/track (visual rendered via React) */
+.glow-slider-input {
+  outline: none;
+  color: transparent;
+}
+.glow-slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  border: none;
+  background: transparent;
+}
+.glow-slider-input::-moz-range-thumb {
+  appearance: none;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  border: none;
+  background: transparent;
+}
+.glow-slider-input::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  height: 20px;
+}
+.glow-slider-input::-moz-range-track {
+  appearance: none;
+  background: transparent;
+  border: none;
+  height: 20px;
+}
+.glow-slider-input:focus {
+  outline: none;
+}
+.glow-slider-input::-moz-focus-outer {
+  border: 0;
+}
+
+/* Confirm dialog: shake attention on destructive button */
+@keyframes attention-shake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-3px); }
+  30% { transform: translateX(3px); }
+  45% { transform: translateX(-2px); }
+  60% { transform: translateX(2px); }
+  75% { transform: translateX(-1px); }
+  90% { transform: translateX(1px); }
+}
+
+.attention-shake {
+  animation: attention-shake 0.5s ease-in-out 0.4s 1;
+}
+
+/* Toast icon animations */
+@keyframes toast-check-draw {
+  from { stroke-dashoffset: 30; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes toast-x-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-2px) rotate(-5deg); }
+  40% { transform: translateX(2px) rotate(5deg); }
+  60% { transform: translateX(-1px) rotate(-3deg); }
+  80% { transform: translateX(1px) rotate(3deg); }
+}
+
+@keyframes toast-info-pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+
+@keyframes toast-progress-drain {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+.toast-check-draw {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: toast-check-draw 0.5s ease-out 0.15s forwards;
+}
+
+.toast-x-shake {
+  animation: toast-x-shake 0.4s ease-in-out 0.1s 1;
+}
+
+.toast-info-pulse {
+  animation: toast-info-pulse 0.8s ease-in-out 0.1s 1;
+}
+
+/* Table action-button hover: colour inversion */
+.action-btn:hover {
+  background-color: var(--text);
+  color: white;
+  border-color: var(--text);
+}
+
+.action-btn-danger:hover {
+  background-color: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
+
+/* Mobile: prevent horizontal overflow on the body */
+@media (max-width: 767px) {
+  html, body {
+    overflow-x: hidden;
+  }
+
+  /* Improve touch targets — ensure minimum 44px tap areas */
+  button, a, select, input[type="checkbox"], input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Slightly larger base text on mobile for readability */
+  body {
+    font-size: 15px;
+    line-height: 1.4rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Ensure inputs don't zoom on iOS (16px minimum) */
+  input, select, textarea {
+    font-size: 16px;
+  }
+
+  /* Better scrollbar for horizontal scroll tables on mobile */
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+}
+
+/* Sidebar active-tab underline: shimmer sweeps left → right */
+@keyframes sidebar-underline-sweep {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.sidebar-underline {
+  background: linear-gradient(
+    to right,
+    #eca400,
+    rgba(236, 164, 0, 0.4) 40%,
+    transparent 80%
+  );
+  background-size: 100% 100%;
+}
+
+.sidebar-underline-glow {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(236, 164, 0, 0.7) 30%,
+    #eca400 50%,
+    rgba(236, 164, 0, 0.7) 70%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: sidebar-underline-sweep 2.5s ease-in-out infinite;
+}
